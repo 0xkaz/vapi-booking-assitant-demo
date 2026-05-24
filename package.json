@@ -1,0 +1,28 @@
+{
+  "name": "booking-assistant-demo",
+  "version": "1.0.0",
+  "description": "Voice reservation assistant demo using VAPI and Cloudflare Workers",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types"
+  },
+  "keywords": [
+    "vapi",
+    "voice-ai",
+    "reservation",
+    "cloudflare-workers",
+    "hono"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.7.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250524.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.15.1"
+  }
+}

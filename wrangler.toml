@@ -1,0 +1,15 @@
+name = "booking-assistant-demo"
+main = "src/index.ts"
+compatibility_date = "2026-05-24"
+
+# NOTE: VAPI_SECRET_TOKEN should be set via `wrangler secret put VAPI_SECRET_TOKEN`
+# and NOT committed to this file.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "booking-reservations"
+database_id = "37bf87d7-7aef-4cb6-abbe-89ba1f772e8e"
+
+[[routes]]
+pattern = "booking-assitant-demo.0xkaz.com"
+custom_domain = true

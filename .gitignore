@@ -1,0 +1,25 @@
+# Japanese memo files (private)
+_*.md
+
+# Node.js
+node_modules/
+dist/
+build/
+*.log
+
+# Cloudflare Workers
+.wrangler/
+.dev.vars
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# TypeScript
+*.tsbuildinfo
+
+
+.env
