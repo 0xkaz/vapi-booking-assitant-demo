@@ -31,11 +31,36 @@ app.post('/webhook', verifyVapiToken, async (c) => {
     return c.json({ results: [{ toolCallId: 'unknown', name: 'unknown', result: 'Error: Database not configured' }] }, 500);
   }
 
-  const toolCallList = message.toolCallList || (message as any).toolWithToolCallList?.map((t: any) => ({
-    id: t.toolCall?.id,
-    name: t.name,
-    parameters: t.toolCall?.parameters,
-  })) || [];
+  const rawToolCalls: any[] =
+    (message as any).toolCallList ??
+    (message as any).toolWithToolCallList ??
+    [];
+
+  const toolCallList = rawToolCalls.map((tc: any) => {
+    // VAPI sends tool calls in multiple formats depending on the assistant model:
+    // Format A (Anthropic/OpenAI): { id, type: "function", function: { name, arguments } }
+    // Format B (legacy):           { id, name, parameters }
+    // Format C (toolWithToolCallList): { name, toolCall: { id, parameters } }
+    if (tc.function) {
+      const args =
+        typeof tc.function.arguments === 'string'
+          ? JSON.parse(tc.function.arguments)
+          : tc.function.arguments ?? {};
+      return { id: tc.id, name: tc.function.name, parameters: args };
+    }
+    if (tc.toolCall) {
+      return {
+        id: tc.toolCall.id,
+        name: tc.name || tc.toolCall.name || 'unknown',
+        parameters: tc.toolCall.parameters ?? {},
+      };
+    }
+    return {
+      id: tc.id,
+      name: tc.name || 'unknown',
+      parameters: tc.parameters ?? {},
+    };
+  });
 
   console.log('Tool calls count:', toolCallList.length);
 
